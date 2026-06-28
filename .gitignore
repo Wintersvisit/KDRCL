@@ -1,0 +1,36 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# IDE settings
+.idea/
+.vscode/
+*.iml
+
+# Runtime output, logs, and model artifacts
+logs/
+tmp/
+*.log
+runs/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+events.out.tfevents.*
+
+# Derived dataset features
+data/**/tmp/
+*.pkl
+
+# Local credentials and machine-specific configuration
+.env
+.env.*
+config/local_config.py
+
+# Operating system files
+.DS_Store
+Thumbs.db

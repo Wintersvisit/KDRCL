@@ -11,7 +11,7 @@ def get_logger(save_dir, task_name):
         logger.handlers.clear()
 
     log_file_name = f'{task_name}.log'
-    file_handler = logging.FileHandler(os.path.join(save_dir, log_file_name), mode='w+')
+    file_handler = logging.FileHandler(os.path.join(save_dir, log_file_name), mode='w+', encoding='utf-8')
     file_handler.setLevel(logging.DEBUG)
     
     formatter = logging.Formatter('%(asctime)s [%(levelname)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')

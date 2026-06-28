@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 class Result:
     def __init__(self):
         pass
@@ -14,14 +15,15 @@ class Result:
         self.mrr_3 = rcl_results['MRR@3']
         self.avg_3 = np.mean([rcl_results['HR@1'], rcl_results['HR@2'], rcl_results['HR@3']])
 
-        self.pre = fti_results['pre']
-        self.rec = fti_results['rec']
-        self.f1 = fti_results['f1']
+        # 故障类型评估设为0或None
+        self.pre = 0.0
+        self.rec = 0.0
+        self.f1 = 0.0
 
     def set_inference_efficiency(self, inference_times: list):
         self.avg_inference_time = np.mean(inference_times)
         self.total_inference_time = np.sum(inference_times)
-    
+
     def set_train_efficiency(self, train_times: list):
         self.avg_train_time = np.mean(train_times)
         self.total_train_time = np.sum(train_times)
@@ -38,7 +40,7 @@ class Result:
             'avg@3': [self.avg_3],
             'pre': [self.pre],
             'rec': [self.rec],
-            'f1':   [self.f1],
+            'f1': [self.f1],
             'train_time': [self.total_train_time],
             'avg_train_time': [self.avg_train_time],
             'inference_time': [self.total_inference_time],

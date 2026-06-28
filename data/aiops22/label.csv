@@ -1,0 +1,542 @@
+index,instance,anomaly_type,data_type,timestamp,level,source_env
+0,node-6,node节点CPU故障,train,1651338400,node,cloudbed
+1,node-6,node节点CPU故障,train,1651339370,node,cloudbed
+2,recommendationservice-0,k8s容器读io负载,train,1651340937,pod,cloudbed
+3,node-5,node 磁盘读IO消耗,train,1651342931,node,cloudbed
+4,frontend-2,k8s容器内存负载,train,1651347456,pod,cloudbed
+5,node-1,node 磁盘读IO消耗,train,1651353978,node,cloudbed
+6,shippingservice-2,k8s容器网络丢包,train,1651355555,pod,cloudbed
+7,paymentservice,k8s容器网络资源包重复发送,train,1651358169,service,cloudbed
+8,node-3,node 磁盘读IO消耗,test,1651361221,node,cloudbed
+9,currencyservice,k8s容器网络丢包,train,1651362327,service,cloudbed
+10,emailservice,k8s容器网络丢包,test,1651365415,service,cloudbed
+11,checkoutservice-0,k8s容器cpu负载,train,1651366271,pod,cloudbed
+12,cartservice,k8s容器网络资源包重复发送,train,1651367122,service,cloudbed
+13,checkoutservice,k8s容器cpu负载,train,1651369063,service,cloudbed
+14,node-4,node 内存消耗,train,1651371142,node,cloudbed
+15,node-1,node 磁盘空间消耗,train,1651373643,node,cloudbed
+16,node-5,node 磁盘空间消耗,train,1651374560,node,cloudbed
+17,frontend-1,k8s容器网络延迟,train,1651377586,pod,cloudbed
+18,productcatalogservice-2,k8s容器进程中止,train,1651379795,pod,cloudbed
+19,emailservice,k8s容器cpu负载,train,1651380417,service,cloudbed
+20,frontend-0,k8s容器写io负载,train,1651382580,pod,cloudbed
+21,productcatalogservice-0,k8s容器网络资源包损坏,test,1651383819,pod,cloudbed
+22,checkoutservice2-0,k8s容器进程中止,train,1651385173,pod,cloudbed
+23,paymentservice,k8s容器cpu负载,train,1651386533,service,cloudbed
+24,node-5,node 磁盘写IO消耗,train,1651388079,node,cloudbed
+25,checkoutservice,k8s容器网络延迟,train,1651389043,service,cloudbed
+26,recommendationservice-0,k8s容器写io负载,train,1651392196,pod,cloudbed
+27,emailservice-1,k8s容器读io负载,train,1651393380,pod,cloudbed
+28,node-3,node 磁盘写IO消耗,test,1651394766,node,cloudbed
+29,node-4,node节点CPU爬升,train,1651395543,node,cloudbed
+30,node-6,node 磁盘读IO消耗,train,1651396610,node,cloudbed
+31,frontend-0,k8s容器cpu负载,train,1651398576,pod,cloudbed
+32,emailservice,k8s容器读io负载,test,1651398958,service,cloudbed
+33,paymentservice,k8s容器cpu负载,test,1651401140,service,cloudbed
+34,frontend,k8s容器读io负载,train,1651402680,service,cloudbed
+35,shippingservice,k8s容器网络延迟,train,1651403338,service,cloudbed
+36,node-5,node节点CPU故障,train,1651404706,node,cloudbed
+37,node-1,node节点CPU故障,test,1651406879,node,cloudbed
+38,shippingservice-0,k8s容器cpu负载,train,1651407633,pod,cloudbed
+39,node-6,node 磁盘写IO消耗,train,1651409804,node,cloudbed
+40,cartservice-2,k8s容器网络丢包,train,1651410232,pod,cloudbed
+41,emailservice,k8s容器网络资源包重复发送,train,1651414976,service,cloudbed
+42,frontend,k8s容器网络资源包重复发送,train,1651415840,service,cloudbed
+43,recommendationservice-2,k8s容器网络资源包损坏,train,1651417166,pod,cloudbed
+44,currencyservice-2,k8s容器读io负载,train,1651419605,pod,cloudbed
+45,shippingservice2-0,k8s容器内存负载,test,1651510238,pod,cloudbed
+46,node-2,node 内存消耗,test,1651511197,node,cloudbed
+47,node-2,node 磁盘空间消耗,train,1651512508,node,cloudbed
+48,adservice,k8s容器网络延迟,train,1651514529,service,cloudbed
+49,adservice2-0,k8s容器网络资源包损坏,train,1651515718,pod,cloudbed
+50,paymentservice-1,k8s容器网络丢包,test,1651518109,pod,cloudbed
+51,productcatalogservice,k8s容器网络资源包重复发送,train,1651519906,service,cloudbed
+52,productcatalogservice-2,k8s容器写io负载,train,1651520967,pod,cloudbed
+53,node-1,node 磁盘空间消耗,train,1651522628,node,cloudbed
+54,recommendationservice,k8s容器读io负载,train,1651523554,service,cloudbed
+55,recommendationservice,k8s容器进程中止,train,1651526238,service,cloudbed
+56,currencyservice-0,k8s容器网络丢包,train,1651527361,pod,cloudbed
+57,frontend,k8s容器网络资源包重复发送,train,1651529574,service,cloudbed
+58,cartservice2-0,k8s容器网络资源包重复发送,train,1651530191,pod,cloudbed
+59,recommendationservice-1,k8s容器网络丢包,train,1651532212,pod,cloudbed
+60,recommendationservice,k8s容器网络丢包,train,1651533257,service,cloudbed
+61,cartservice,k8s容器网络丢包,train,1651535538,service,cloudbed
+62,emailservice-2,k8s容器网络资源包损坏,train,1651537524,pod,cloudbed
+63,emailservice,k8s容器写io负载,test,1651538629,service,cloudbed
+64,node-3,node节点CPU爬升,train,1651539483,node,cloudbed
+65,checkoutservice-0,k8s容器进程中止,train,1651542023,pod,cloudbed
+66,frontend,k8s容器写io负载,train,1651544319,service,cloudbed
+67,adservice,k8s容器读io负载,train,1651545391,service,cloudbed
+68,node-2,node 内存消耗,test,1651547094,node,cloudbed
+69,currencyservice-1,k8s容器网络延迟,train,1651548305,pod,cloudbed
+70,currencyservice,k8s容器网络资源包损坏,train,1651551592,service,cloudbed
+71,checkoutservice,k8s容器cpu负载,train,1651553048,service,cloudbed
+72,adservice-2,k8s容器网络延迟,train,1651555148,pod,cloudbed
+73,currencyservice,k8s容器网络丢包,train,1651557284,service,cloudbed
+74,checkoutservice,k8s容器网络资源包损坏,test,1651559992,service,cloudbed
+75,productcatalogservice2-0,k8s容器网络资源包重复发送,train,1651560909,pod,cloudbed
+76,productcatalogservice,k8s容器网络丢包,train,1651562022,service,cloudbed
+77,shippingservice-1,k8s容器内存负载,train,1651564006,pod,cloudbed
+78,checkoutservice,k8s容器进程中止,train,1651566484,service,cloudbed
+79,node-4,node节点CPU爬升,test,1651567977,node,cloudbed
+80,node-2,node 内存消耗,train,1651568969,node,cloudbed
+81,paymentservice-1,k8s容器读io负载,train,1651570759,pod,cloudbed
+82,productcatalogservice2-0,k8s容器网络延迟,train,1651571935,pod,cloudbed
+83,node-3,node 磁盘空间消耗,train,1651573816,node,cloudbed
+84,emailservice,k8s容器读io负载,train,1651574154,service,cloudbed
+85,shippingservice-2,k8s容器内存负载,train,1651575912,pod,cloudbed
+86,node-6,node节点CPU爬升,test,1651577016,node,cloudbed
+87,productcatalogservice,k8s容器内存负载,train,1651578454,service,cloudbed
+88,node-6,node节点CPU故障,test,1651579656,node,cloudbed
+89,recommendationservice-0,k8s容器网络资源包重复发送,train,1651581832,pod,cloudbed
+90,node-5,node 磁盘写IO消耗,train,1651585999,node,cloudbed
+91,checkoutservice,k8s容器网络资源包重复发送,train,1651587373,service,cloudbed
+92,recommendationservice,k8s容器内存负载,test,1651588509,service,cloudbed
+93,frontend,k8s容器网络资源包损坏,test,1651589596,service,cloudbed
+94,checkoutservice-2,k8s容器读io负载,train,1651592393,pod,cloudbed
+95,node-5,node 磁盘写IO消耗,train,1651682649,node,cloudbed
+96,shippingservice,k8s容器网络资源包损坏,train,1651686054,service,cloudbed
+97,emailservice-2,k8s容器读io负载,train,1651688141,pod,cloudbed
+98,shippingservice2-0,k8s容器内存负载,train,1651688909,pod,cloudbed
+99,node-3,node 磁盘空间消耗,train,1651690183,node,cloudbed
+100,productcatalogservice-0,k8s容器写io负载,train,1651692556,pod,cloudbed
+101,cartservice,k8s容器网络延迟,test,1651694960,service,cloudbed
+102,node-3,node 磁盘写IO消耗,train,1651696337,node,cloudbed
+103,recommendationservice-1,k8s容器cpu负载,train,1651699208,pod,cloudbed
+104,node-4,node节点CPU故障,train,1651701553,node,cloudbed
+105,recommendationservice2-0,k8s容器网络丢包,train,1651703269,pod,cloudbed
+106,shippingservice2-0,k8s容器网络资源包损坏,train,1651708764,pod,cloudbed
+107,node-1,node 磁盘读IO消耗,train,1651710862,node,cloudbed
+108,checkoutservice,k8s容器网络延迟,train,1651712135,service,cloudbed
+109,node-1,node 磁盘空间消耗,train,1651712583,node,cloudbed
+110,node-4,node 磁盘读IO消耗,test,1651715252,node,cloudbed
+111,recommendationservice-2,k8s容器读io负载,test,1651716458,pod,cloudbed
+112,node-1,node 磁盘读IO消耗,train,1651717501,node,cloudbed
+113,node-3,node节点CPU爬升,test,1651719510,node,cloudbed
+114,frontend,k8s容器网络资源包重复发送,test,1651721139,service,cloudbed
+115,node-1,node 磁盘读IO消耗,train,1651721971,node,cloudbed
+116,cartservice,k8s容器网络资源包损坏,train,1651723658,service,cloudbed
+117,paymentservice-0,k8s容器网络延迟,train,1651727156,pod,cloudbed
+118,cartservice-0,k8s容器内存负载,test,1651728277,pod,cloudbed
+119,node-3,node 磁盘写IO消耗,train,1651729272,node,cloudbed
+120,adservice,k8s容器网络资源包重复发送,train,1651732152,service,cloudbed
+121,checkoutservice-0,k8s容器网络资源包重复发送,train,1651733576,pod,cloudbed
+122,paymentservice-0,k8s容器内存负载,train,1651734682,pod,cloudbed
+123,recommendationservice,k8s容器网络丢包,train,1651736646,service,cloudbed
+124,recommendationservice,k8s容器cpu负载,train,1651738176,service,cloudbed
+125,node-3,node 磁盘写IO消耗,test,1651739324,node,cloudbed
+126,recommendationservice,k8s容器读io负载,train,1651740365,service,cloudbed
+127,productcatalogservice,k8s容器进程中止,train,1651742838,service,cloudbed
+128,checkoutservice-2,k8s容器进程中止,train,1651744078,pod,cloudbed
+129,cartservice-0,k8s容器进程中止,train,1651746090,pod,cloudbed
+130,node-6,node节点CPU故障,train,1651746729,node,cloudbed
+131,node-4,node节点CPU故障,test,1651751150,node,cloudbed
+132,currencyservice-2,k8s容器cpu负载,test,1651753127,pod,cloudbed
+133,cartservice,k8s容器网络资源包损坏,train,1651755177,service,cloudbed
+134,adservice2-0,k8s容器网络丢包,train,1651757106,pod,cloudbed
+135,checkoutservice,k8s容器cpu负载,train,1651758487,service,cloudbed
+136,frontend-2,k8s容器网络延迟,train,1651759027,pod,cloudbed
+137,cartservice,k8s容器网络资源包损坏,train,1651760033,service,cloudbed
+138,node-4,node 内存消耗,train,1651761708,node,cloudbed
+139,frontend-1,k8s容器网络资源包损坏,train,1651762517,pod,cloudbed
+140,recommendationservice,k8s容器网络资源包重复发送,train,1651764000,service,cloudbed
+141,productcatalogservice,k8s容器网络资源包损坏,train,1651858208,service,cloudbed
+142,frontend-2,k8s容器写io负载,train,1651859583,pod,cloudbed
+143,node-2,node 磁盘空间消耗,test,1651860249,node,cloudbed
+144,shippingservice-1,k8s容器网络延迟,train,1651861952,pod,cloudbed
+145,emailservice,k8s容器网络丢包,train,1651863211,service,cloudbed
+146,node-6,node 磁盘写IO消耗,test,1651863857,node,cloudbed
+147,node-5,node 磁盘空间消耗,train,1651867434,node,cloudbed
+148,cartservice-0,k8s容器进程中止,train,1651869023,pod,cloudbed
+149,productcatalogservice-2,k8s容器网络延迟,train,1651870394,pod,cloudbed
+150,paymentservice-0,k8s容器网络丢包,train,1651871475,pod,cloudbed
+151,node-5,node 内存消耗,train,1651872135,node,cloudbed
+152,shippingservice-1,k8s容器网络延迟,train,1651873932,pod,cloudbed
+153,node-1,node 磁盘空间消耗,test,1651875390,node,cloudbed
+154,frontend,k8s容器读io负载,test,1651876445,service,cloudbed
+155,currencyservice-0,k8s容器cpu负载,train,1651877333,pod,cloudbed
+156,shippingservice-1,k8s容器网络丢包,train,1651878362,pod,cloudbed
+157,productcatalogservice,k8s容器网络延迟,train,1651880837,service,cloudbed
+158,frontend,k8s容器网络资源包重复发送,train,1651881306,service,cloudbed
+159,emailservice-1,k8s容器网络丢包,train,1651884469,pod,cloudbed
+160,node-6,node 磁盘空间消耗,test,1651885258,node,cloudbed
+161,cartservice,k8s容器网络延迟,train,1651885771,service,cloudbed
+162,recommendationservice,k8s容器内存负载,train,1651889566,service,cloudbed
+163,recommendationservice,k8s容器写io负载,train,1651891523,service,cloudbed
+164,node-4,node节点CPU爬升,train,1651891895,node,cloudbed
+165,node-6,node 磁盘读IO消耗,train,1651896807,node,cloudbed
+166,currencyservice,k8s容器内存负载,test,1651897275,service,cloudbed
+167,recommendationservice-1,k8s容器cpu负载,test,1651899367,pod,cloudbed
+168,node-5,node 内存消耗,train,1651900839,node,cloudbed
+169,checkoutservice,k8s容器网络资源包重复发送,train,1651903067,service,cloudbed
+170,node-3,node节点CPU爬升,train,1651904204,node,cloudbed
+171,productcatalogservice,k8s容器进程中止,train,1651904895,service,cloudbed
+172,recommendationservice,k8s容器读io负载,train,1651906320,service,cloudbed
+173,adservice,k8s容器内存负载,train,1651908253,service,cloudbed
+174,adservice,k8s容器读io负载,train,1651909424,service,cloudbed
+175,frontend,k8s容器网络丢包,train,1651910133,service,cloudbed
+176,paymentservice,k8s容器网络丢包,train,1651911478,service,cloudbed
+177,node-6,node 磁盘读IO消耗,train,1651913210,node,cloudbed
+178,productcatalogservice-1,k8s容器网络资源包重复发送,train,1651914144,pod,cloudbed
+179,adservice,k8s容器内存负载,test,1651915992,service,cloudbed
+180,node-1,node 磁盘写IO消耗,train,1651918114,node,cloudbed
+181,frontend,k8s容器网络延迟,train,1651919818,service,cloudbed
+182,adservice-0,k8s容器写io负载,train,1651920562,pod,cloudbed
+183,node-2,node 磁盘空间消耗,train,1651922476,node,cloudbed
+184,node-4,node 内存消耗,test,1651926867,node,cloudbed
+185,node-5,node 磁盘读IO消耗,train,1651928188,node,cloudbed
+186,node-1,node节点CPU故障,train,1651929878,node,cloudbed
+187,emailservice-2,k8s容器网络资源包重复发送,train,1651932648,pod,cloudbed
+188,adservice2-0,k8s容器读io负载,test,1651934221,pod,cloudbed
+189,adservice,k8s容器网络延迟,train,1651935446,service,cloudbed
+190,emailservice,k8s容器网络资源包重复发送,train,1651936625,service,cloudbed
+191,emailservice-0,k8s容器写io负载,train,1652026980,pod,cloudbed
+192,emailservice-1,k8s容器读io负载,test,1652027890,pod,cloudbed
+193,checkoutservice,k8s容器cpu负载,train,1652028651,service,cloudbed
+194,frontend-2,k8s容器网络丢包,train,1652029802,pod,cloudbed
+195,shippingservice,k8s容器读io负载,test,1652031460,service,cloudbed
+196,shippingservice-1,k8s容器cpu负载,test,1652032391,pod,cloudbed
+197,frontend,k8s容器网络丢包,train,1652034858,service,cloudbed
+198,node-5,node节点CPU故障,train,1652035716,node,cloudbed
+199,shippingservice-1,k8s容器cpu负载,test,1652044466,pod,cloudbed
+200,emailservice,k8s容器写io负载,train,1652046023,service,cloudbed
+201,recommendationservice,k8s容器内存负载,train,1652047629,service,cloudbed
+202,productcatalogservice,k8s容器网络丢包,test,1652049367,service,cloudbed
+203,recommendationservice-2,k8s容器内存负载,train,1652051200,pod,cloudbed
+204,emailservice,k8s容器内存负载,train,1652052222,service,cloudbed
+205,node-3,node 磁盘空间消耗,train,1652053117,node,cloudbed
+206,shippingservice-0,k8s容器网络资源包重复发送,train,1652055279,pod,cloudbed
+207,node-3,node节点CPU故障,train,1652056357,node,cloudbed
+208,node-1,node 磁盘空间消耗,test,1652058023,node,cloudbed
+209,recommendationservice2-0,k8s容器写io负载,train,1652060333,pod,cloudbed
+210,currencyservice,k8s容器cpu负载,train,1652061480,service,cloudbed
+211,recommendationservice,k8s容器写io负载,train,1652063842,service,cloudbed
+212,node-4,node 内存消耗,train,1652064977,node,cloudbed
+213,paymentservice,k8s容器内存负载,train,1652066468,service,cloudbed
+214,adservice-1,k8s容器读io负载,train,1652069584,pod,cloudbed
+215,adservice,k8s容器进程中止,train,1652072251,service,cloudbed
+216,checkoutservice2-0,k8s容器网络丢包,train,1652075078,pod,cloudbed
+217,cartservice,k8s容器网络资源包损坏,train,1652077083,service,cloudbed
+218,productcatalogservice,k8s容器网络资源包损坏,test,1652078717,service,cloudbed
+219,checkoutservice,k8s容器网络资源包重复发送,train,1652079403,service,cloudbed
+220,frontend,k8s容器网络资源包损坏,train,1652080322,service,cloudbed
+221,productcatalogservice-2,k8s容器网络资源包重复发送,train,1652081634,pod,cloudbed
+222,node-5,node节点CPU故障,train,1652083866,node,cloudbed
+223,shippingservice,k8s容器网络延迟,train,1652085116,service,cloudbed
+224,node-3,node 磁盘写IO消耗,test,1652087378,node,cloudbed
+225,frontend-1,k8s容器cpu负载,train,1652088630,pod,cloudbed
+226,adservice-1,k8s容器读io负载,train,1652089514,pod,cloudbed
+227,frontend-2,k8s容器网络资源包损坏,train,1652090619,pod,cloudbed
+228,productcatalogservice-0,k8s容器网络丢包,train,1652092703,pod,cloudbed
+229,paymentservice-2,k8s容器进程中止,train,1652093544,pod,cloudbed
+230,frontend-1,k8s容器内存负载,train,1652094318,pod,cloudbed
+231,emailservice-2,k8s容器网络丢包,train,1652097055,pod,cloudbed
+232,emailservice,k8s容器网络资源包重复发送,train,1652098933,service,cloudbed
+233,emailservice,k8s容器写io负载,test,1652099503,service,cloudbed
+234,node-4,node节点CPU故障,train,1652101150,node,cloudbed
+235,cartservice-2,k8s容器网络资源包损坏,test,1652102061,pod,cloudbed
+236,node-2,node节点CPU故障,train,1652103411,node,cloudbed
+237,currencyservice-2,k8s容器cpu负载,train,1652104717,pod,cloudbed
+238,node-6,node 磁盘读IO消耗,train,1652105625,node,cloudbed
+239,productcatalogservice,k8s容器网络资源包损坏,train,1652108177,service,cloudbed
+240,recommendationservice-0,k8s容器内存负载,train,1652110645,pod,cloudbed
+241,cartservice,k8s容器网络丢包,train,1647736122,service,2022-03-20-cloudbed3
+242,recommendationservice2-0,k8s容器写io负载,train,1647736507,pod,2022-03-20-cloudbed2
+243,cartservice,k8s容器网络延迟,train,1647736751,service,2022-03-20-cloudbed1
+244,node-2,node 内存消耗,test,1647736886,node,2022-03-20-cloudbed3
+245,node-6,node节点CPU故障,test,1647737295,node,2022-03-20-cloudbed2
+246,adservice,k8s容器网络延迟,train,1647737329,service,2022-03-20-cloudbed1
+247,shippingservice-1,k8s容器读io负载,test,1647738546,pod,2022-03-20-cloudbed1
+248,cartservice2-0,k8s容器内存负载,train,1647739015,pod,2022-03-20-cloudbed2
+249,frontend,k8s容器cpu负载,train,1647740093,service,2022-03-20-cloudbed3
+250,productcatalogservice,k8s容器网络资源包损坏,train,1647740269,service,2022-03-20-cloudbed2
+251,emailservice-1,k8s容器网络延迟,train,1647740664,pod,2022-03-20-cloudbed3
+252,emailservice-0,k8s容器读io负载,test,1647741299,pod,2022-03-20-cloudbed1
+253,adservice-1,k8s容器内存负载,test,1647742414,pod,2022-03-20-cloudbed3
+254,node-1,node 内存消耗,train,1647743133,node,2022-03-20-cloudbed1
+255,currencyservice-0,k8s容器读io负载,train,1647743634,pod,2022-03-20-cloudbed2
+256,node-4,node 磁盘写IO消耗,train,1647744231,node,2022-03-20-cloudbed3
+257,node-1,node 内存消耗,test,1647744727,node,2022-03-20-cloudbed1
+258,node-4,node 磁盘读IO消耗,train,1647744775,node,2022-03-20-cloudbed2
+259,cartservice,k8s容器网络丢包,train,1647745475,service,2022-03-20-cloudbed3
+260,recommendationservice2-0,k8s容器cpu负载,train,1647745687,pod,2022-03-20-cloudbed2
+261,shippingservice-1,k8s容器内存负载,test,1647746396,pod,2022-03-20-cloudbed1
+262,frontend-0,k8s容器cpu负载,train,1647746749,pod,2022-03-20-cloudbed2
+263,recommendationservice,k8s容器网络资源包损坏,train,1647747326,service,2022-03-20-cloudbed1
+264,node-4,node 磁盘空间消耗,train,1647747451,node,2022-03-20-cloudbed3
+265,adservice-1,k8s容器网络资源包重复发送,train,1647748348,pod,2022-03-20-cloudbed2
+266,currencyservice,k8s容器读io负载,test,1647749225,service,2022-03-20-cloudbed2
+267,node-1,node 磁盘读IO消耗,train,1647749271,node,2022-03-20-cloudbed1
+268,recommendationservice,k8s容器cpu负载,train,1647749457,service,2022-03-20-cloudbed1
+269,shippingservice,k8s容器读io负载,train,1647750907,service,2022-03-20-cloudbed2
+270,productcatalogservice,k8s容器网络资源包重复发送,train,1647751477,service,2022-03-20-cloudbed3
+271,node-4,node节点CPU故障,train,1647752146,node,2022-03-20-cloudbed2
+272,productcatalogservice-0,k8s容器网络丢包,train,1647753000,pod,2022-03-20-cloudbed3
+273,node-5,node 磁盘读IO消耗,train,1647753141,node,2022-03-20-cloudbed2
+274,node-2,node 磁盘写IO消耗,train,1647753199,node,2022-03-20-cloudbed1
+275,cartservice2-0,k8s容器网络资源包损坏,test,1647754192,pod,2022-03-20-cloudbed3
+276,node-4,node节点CPU故障,train,1647754788,node,2022-03-20-cloudbed1
+277,node-6,node节点CPU故障,train,1647755511,node,2022-03-20-cloudbed1
+278,checkoutservice,k8s容器cpu负载,train,1647755812,service,2022-03-20-cloudbed3
+279,recommendationservice,k8s容器网络延迟,train,1647756033,service,2022-03-20-cloudbed2
+280,checkoutservice,k8s容器读io负载,train,1647756782,service,2022-03-20-cloudbed2
+281,node-2,node节点CPU故障,train,1647756810,node,2022-03-20-cloudbed3
+282,recommendationservice2-0,k8s容器进程中止,train,1647756886,pod,2022-03-20-cloudbed1
+283,shippingservice,k8s容器cpu负载,train,1647757395,service,2022-03-20-cloudbed1
+284,emailservice-1,k8s容器写io负载,train,1647757979,pod,2022-03-20-cloudbed2
+285,emailservice,k8s容器网络资源包重复发送,train,1647758049,service,2022-03-20-cloudbed3
+286,paymentservice,k8s容器网络丢包,test,1647759640,service,2022-03-20-cloudbed1
+287,checkoutservice-0,k8s容器cpu负载,train,1647759731,pod,2022-03-20-cloudbed2
+288,node-5,node 磁盘写IO消耗,train,1647759913,node,2022-03-20-cloudbed3
+289,shippingservice,k8s容器进程中止,train,1647761243,service,2022-03-20-cloudbed1
+290,emailservice,k8s容器网络资源包重复发送,train,1647761261,service,2022-03-20-cloudbed2
+291,node-2,node 磁盘读IO消耗,train,1647761426,node,2022-03-20-cloudbed3
+292,cartservice-1,k8s容器网络延迟,train,1647761852,pod,2022-03-20-cloudbed1
+293,shippingservice,k8s容器网络资源包重复发送,test,1647762321,service,2022-03-20-cloudbed3
+294,node-2,node节点CPU故障,train,1647762523,node,2022-03-20-cloudbed2
+295,node-6,node节点CPU爬升,train,1647763127,node,2022-03-20-cloudbed2
+296,shippingservice-1,k8s容器网络资源包重复发送,train,1647763803,pod,2022-03-20-cloudbed1
+297,emailservice-0,k8s容器网络资源包重复发送,train,1647764883,pod,2022-03-20-cloudbed2
+298,currencyservice-0,k8s容器网络资源包损坏,train,1647765104,pod,2022-03-20-cloudbed1
+299,cartservice,k8s容器网络丢包,train,1647765122,service,2022-03-20-cloudbed3
+300,shippingservice2-0,k8s容器读io负载,train,1647766205,pod,2022-03-20-cloudbed3
+301,cartservice-0,k8s容器网络延迟,train,1647766236,pod,2022-03-20-cloudbed2
+302,node-4,node节点CPU爬升,train,1647767561,node,2022-03-20-cloudbed1
+303,paymentservice,k8s容器进程中止,train,1647768199,service,2022-03-20-cloudbed1
+304,frontend-2,k8s容器网络丢包,test,1647768435,pod,2022-03-20-cloudbed3
+305,node-5,node 磁盘写IO消耗,train,1647769222,node,2022-03-20-cloudbed1
+306,adservice2-0,k8s容器网络延迟,train,1647769665,pod,2022-03-20-cloudbed2
+307,shippingservice,k8s容器cpu负载,train,1647770050,service,2022-03-20-cloudbed3
+308,paymentservice,k8s容器内存负载,train,1647770808,service,2022-03-20-cloudbed1
+309,shippingservice,k8s容器网络延迟,train,1647770896,service,2022-03-20-cloudbed2
+310,emailservice,k8s容器网络资源包损坏,train,1647771846,service,2022-03-20-cloudbed1
+311,currencyservice-0,k8s容器网络丢包,train,1647772648,pod,2022-03-20-cloudbed1
+312,recommendationservice,k8s容器网络资源包损坏,test,1647772787,service,2022-03-20-cloudbed3
+313,node-2,node 磁盘空间消耗,test,1647772907,node,2022-03-20-cloudbed2
+314,frontend,k8s容器cpu负载,test,1647773780,service,2022-03-20-cloudbed3
+315,frontend-2,k8s容器网络资源包重复发送,train,1647774333,pod,2022-03-20-cloudbed1
+316,shippingservice,k8s容器内存负载,train,1647774736,service,2022-03-20-cloudbed3
+317,node-3,node节点CPU爬升,test,1647775423,node,2022-03-20-cloudbed2
+318,node-4,node 磁盘读IO消耗,test,1647776146,node,2022-03-20-cloudbed1
+319,recommendationservice-2,k8s容器内存负载,train,1647776532,pod,2022-03-20-cloudbed2
+320,currencyservice-1,k8s容器网络延迟,train,1647777271,pod,2022-03-20-cloudbed3
+321,shippingservice2-0,k8s容器cpu负载,train,1647778982,pod,2022-03-20-cloudbed1
+322,frontend-0,k8s容器网络资源包损坏,train,1647779497,pod,2022-03-20-cloudbed3
+323,productcatalogservice,k8s容器网络资源包重复发送,train,1647781132,service,2022-03-20-cloudbed2
+324,node-3,node 磁盘空间消耗,train,1647781538,node,2022-03-20-cloudbed3
+325,emailservice,k8s容器网络丢包,train,1647782181,service,2022-03-20-cloudbed1
+326,node-6,node 磁盘写IO消耗,train,1647782273,node,2022-03-20-cloudbed2
+327,cartservice-0,k8s容器内存负载,train,1647783016,pod,2022-03-20-cloudbed1
+328,adservice-1,k8s容器网络资源包损坏,train,1647783528,pod,2022-03-20-cloudbed3
+329,node-1,node 磁盘空间消耗,test,1647784337,node,2022-03-20-cloudbed1
+330,node-6,node 磁盘写IO消耗,test,1647784693,node,2022-03-20-cloudbed2
+331,frontend-1,k8s容器网络延迟,train,1647784872,pod,2022-03-20-cloudbed1
+332,node-5,node 磁盘写IO消耗,train,1647785512,node,2022-03-20-cloudbed3
+333,checkoutservice-0,k8s容器cpu负载,train,1647785797,pod,2022-03-20-cloudbed3
+334,recommendationservice,k8s容器写io负载,train,1647785991,service,2022-03-20-cloudbed2
+335,currencyservice-1,k8s容器网络丢包,train,1647786708,pod,2022-03-20-cloudbed1
+336,shippingservice,k8s容器网络资源包重复发送,train,1647787471,service,2022-03-20-cloudbed2
+337,node-3,node 磁盘读IO消耗,test,1647788164,node,2022-03-20-cloudbed1
+338,checkoutservice-2,k8s容器内存负载,train,1647788966,pod,2022-03-20-cloudbed1
+339,node-6,node 磁盘写IO消耗,train,1647789748,node,2022-03-20-cloudbed2
+340,productcatalogservice,k8s容器cpu负载,train,1647790210,service,2022-03-20-cloudbed1
+341,node-3,node 磁盘写IO消耗,train,1647790386,node,2022-03-20-cloudbed3
+342,node-2,node 磁盘读IO消耗,test,1647792456,node,2022-03-21-cloudbed2
+343,node-5,node 内存消耗,train,1647792846,node,2022-03-21-cloudbed3
+344,shippingservice-0,k8s容器网络资源包重复发送,train,1647793099,pod,2022-03-21-cloudbed2
+345,cartservice,k8s容器网络资源包重复发送,test,1647794245,service,2022-03-21-cloudbed1
+346,frontend-2,k8s容器读io负载,train,1647794809,pod,2022-03-21-cloudbed2
+347,currencyservice-2,k8s容器网络丢包,train,1647795480,pod,2022-03-21-cloudbed2
+348,emailservice-1,k8s容器读io负载,train,1647795536,pod,2022-03-21-cloudbed3
+349,cartservice-0,k8s容器网络资源包重复发送,train,1647796005,pod,2022-03-21-cloudbed1
+350,productcatalogservice-2,k8s容器读io负载,test,1647796830,pod,2022-03-21-cloudbed1
+351,frontend,k8s容器网络延迟,train,1647796916,service,2022-03-21-cloudbed3
+352,adservice-0,k8s容器进程中止,train,1647797643,pod,2022-03-21-cloudbed2
+353,node-5,node 磁盘读IO消耗,train,1647798275,node,2022-03-21-cloudbed1
+354,paymentservice-0,k8s容器网络资源包重复发送,train,1647798485,pod,2022-03-21-cloudbed2
+355,emailservice-0,k8s容器内存负载,train,1647798509,pod,2022-03-21-cloudbed3
+356,node-2,node 磁盘空间消耗,train,1647799707,node,2022-03-21-cloudbed2
+357,node-5,node 磁盘写IO消耗,train,1647800098,node,2022-03-21-cloudbed1
+358,checkoutservice-0,k8s容器网络资源包损坏,train,1647800351,pod,2022-03-21-cloudbed3
+359,recommendationservice,k8s容器进程中止,test,1647800799,service,2022-03-21-cloudbed1
+360,cartservice,k8s容器网络资源包损坏,test,1647801135,service,2022-03-21-cloudbed2
+361,frontend,k8s容器网络资源包损坏,test,1647802167,service,2022-03-21-cloudbed3
+362,checkoutservice,k8s容器网络资源包损坏,train,1647803448,service,2022-03-21-cloudbed1
+363,node-3,node节点CPU故障,train,1647803585,node,2022-03-21-cloudbed3
+364,node-5,node 磁盘空间消耗,train,1647804189,node,2022-03-21-cloudbed2
+365,node-6,node 磁盘写IO消耗,train,1647805154,node,2022-03-21-cloudbed1
+366,node-1,node 磁盘读IO消耗,test,1647805830,node,2022-03-21-cloudbed3
+367,recommendationservice-1,k8s容器进程中止,train,1647806025,pod,2022-03-21-cloudbed2
+368,emailservice,k8s容器读io负载,test,1647807214,service,2022-03-21-cloudbed2
+369,shippingservice,k8s容器网络延迟,train,1647807349,service,2022-03-21-cloudbed3
+370,cartservice,k8s容器网络资源包重复发送,train,1647808364,service,2022-03-21-cloudbed1
+371,cartservice,k8s容器网络丢包,test,1647808427,service,2022-03-21-cloudbed2
+372,productcatalogservice-1,k8s容器内存负载,train,1647808770,pod,2022-03-21-cloudbed3
+373,recommendationservice-2,k8s容器网络丢包,train,1647809681,pod,2022-03-21-cloudbed1
+374,productcatalogservice-0,k8s容器网络丢包,train,1647810366,pod,2022-03-21-cloudbed3
+375,node-4,node 内存消耗,test,1647810949,node,2022-03-21-cloudbed1
+376,productcatalogservice-0,k8s容器写io负载,train,1647811370,pod,2022-03-21-cloudbed2
+377,currencyservice,k8s容器网络资源包损坏,train,1647811973,service,2022-03-21-cloudbed3
+378,shippingservice2-0,k8s容器网络资源包损坏,train,1647812163,pod,2022-03-21-cloudbed1
+379,shippingservice2-0,k8s容器网络延迟,train,1647813698,pod,2022-03-21-cloudbed3
+380,node-2,node 磁盘写IO消耗,train,1647814334,node,2022-03-21-cloudbed3
+381,node-4,node 内存消耗,train,1647814829,node,2022-03-21-cloudbed2
+382,currencyservice-0,k8s容器网络延迟,train,1647816058,pod,2022-03-21-cloudbed1
+383,recommendationservice-1,k8s容器网络资源包损坏,train,1647816272,pod,2022-03-21-cloudbed2
+384,emailservice-0,k8s容器网络丢包,train,1647816878,pod,2022-03-21-cloudbed2
+385,currencyservice,k8s容器进程中止,train,1647816945,service,2022-03-21-cloudbed3
+386,productcatalogservice,k8s容器网络延迟,train,1647817324,service,2022-03-21-cloudbed3
+387,frontend-1,k8s容器cpu负载,test,1647818719,pod,2022-03-21-cloudbed3
+388,frontend,k8s容器网络延迟,test,1647818792,service,2022-03-21-cloudbed2
+389,adservice2-0,k8s容器读io负载,train,1647818816,pod,2022-03-21-cloudbed1
+390,node-6,node 磁盘读IO消耗,train,1647819971,node,2022-03-21-cloudbed1
+391,node-4,node节点CPU故障,train,1647820076,node,2022-03-21-cloudbed2
+392,cartservice,k8s容器网络资源包损坏,train,1647820275,service,2022-03-21-cloudbed3
+393,productcatalogservice-0,k8s容器cpu负载,train,1647820502,pod,2022-03-21-cloudbed1
+394,productcatalogservice,k8s容器网络丢包,train,1647821872,service,2022-03-21-cloudbed2
+395,shippingservice-1,k8s容器cpu负载,train,1647821967,pod,2022-03-21-cloudbed1
+396,checkoutservice-1,k8s容器进程中止,train,1647823316,pod,2022-03-21-cloudbed3
+397,node-6,node 磁盘写IO消耗,train,1647823589,node,2022-03-21-cloudbed2
+398,node-1,node节点CPU故障,train,1647823965,node,2022-03-21-cloudbed1
+399,productcatalogservice,k8s容器cpu负载,train,1647824785,service,2022-03-21-cloudbed1
+400,recommendationservice-1,k8s容器网络延迟,train,1647824881,pod,2022-03-21-cloudbed2
+401,node-1,node 磁盘读IO消耗,test,1647825820,node,2022-03-21-cloudbed3
+402,checkoutservice,k8s容器内存负载,train,1647825990,service,2022-03-21-cloudbed1
+403,shippingservice-1,k8s容器内存负载,train,1647826274,pod,2022-03-21-cloudbed2
+404,adservice,k8s容器网络资源包重复发送,train,1647827052,service,2022-03-21-cloudbed3
+405,shippingservice,k8s容器读io负载,train,1647827637,service,2022-03-21-cloudbed1
+406,node-6,node节点CPU故障,train,1647828147,node,2022-03-21-cloudbed2
+407,node-6,node节点CPU爬升,train,1647828908,node,2022-03-21-cloudbed1
+408,cartservice,k8s容器网络资源包损坏,train,1647829513,service,2022-03-21-cloudbed3
+409,frontend,k8s容器内存负载,train,1647829767,service,2022-03-21-cloudbed2
+410,node-4,node 磁盘空间消耗,train,1647830276,node,2022-03-21-cloudbed1
+411,node-6,node 内存消耗,train,1647830692,node,2022-03-21-cloudbed1
+412,adservice,k8s容器读io负载,train,1647831156,service,2022-03-21-cloudbed2
+413,cartservice-0,k8s容器网络资源包重复发送,train,1647831451,pod,2022-03-21-cloudbed3
+414,checkoutservice,k8s容器网络丢包,train,1647831835,service,2022-03-21-cloudbed2
+415,shippingservice,k8s容器网络丢包,train,1647832658,service,2022-03-21-cloudbed1
+416,cartservice2-0,k8s容器网络延迟,train,1647832942,pod,2022-03-21-cloudbed3
+417,node-6,node 磁盘读IO消耗,train,1647833117,node,2022-03-21-cloudbed2
+418,node-2,node节点CPU故障,train,1647833785,node,2022-03-21-cloudbed3
+419,frontend,k8s容器内存负载,test,1647834030,service,2022-03-21-cloudbed1
+420,recommendationservice-2,k8s容器网络丢包,train,1647835475,pod,2022-03-21-cloudbed1
+421,node-5,node 磁盘空间消耗,train,1647835588,node,2022-03-21-cloudbed3
+422,node-5,node 磁盘写IO消耗,train,1647836047,node,2022-03-21-cloudbed2
+423,productcatalogservice,k8s容器网络延迟,test,1647836321,service,2022-03-21-cloudbed1
+424,shippingservice-0,k8s容器网络资源包损坏,train,1647837983,pod,2022-03-21-cloudbed2
+425,emailservice,k8s容器进程中止,test,1647838144,service,2022-03-21-cloudbed3
+426,paymentservice,k8s容器网络延迟,train,1647838805,service,2022-03-21-cloudbed1
+427,shippingservice-2,k8s容器读io负载,train,1647839856,pod,2022-03-21-cloudbed2
+428,shippingservice-1,k8s容器进程中止,train,1647840355,pod,2022-03-21-cloudbed3
+429,recommendationservice-0,k8s容器网络资源包重复发送,train,1647840981,pod,2022-03-21-cloudbed2
+430,currencyservice,k8s容器内存负载,train,1647841146,service,2022-03-21-cloudbed1
+431,frontend-2,k8s容器网络丢包,train,1647841753,pod,2022-03-21-cloudbed2
+432,emailservice,k8s容器读io负载,train,1647841770,service,2022-03-21-cloudbed3
+433,recommendationservice,k8s容器内存负载,train,1647842293,service,2022-03-21-cloudbed3
+434,emailservice,k8s容器读io负载,train,1647842901,service,2022-03-21-cloudbed1
+435,emailservice,k8s容器写io负载,train,1647843413,service,2022-03-21-cloudbed1
+436,productcatalogservice-1,k8s容器网络丢包,train,1647843588,pod,2022-03-21-cloudbed2
+437,node-5,node节点CPU爬升,train,1647843665,node,2022-03-21-cloudbed3
+438,emailservice,k8s容器网络资源包重复发送,train,1647844428,service,2022-03-21-cloudbed3
+439,productcatalogservice2-0,k8s容器内存负载,train,1647844751,pod,2022-03-21-cloudbed2
+440,frontend,k8s容器cpu负载,test,1647845941,service,2022-03-21-cloudbed2
+441,adservice,k8s容器读io负载,train,1647845943,service,2022-03-21-cloudbed1
+442,frontend2-0,k8s容器网络资源包损坏,train,1647846519,pod,2022-03-21-cloudbed1
+443,node-2,node节点CPU爬升,test,1647846747,node,2022-03-21-cloudbed3
+444,paymentservice,k8s容器进程中止,train,1647847185,service,2022-03-21-cloudbed2
+445,emailservice-1,k8s容器网络延迟,train,1647847538,pod,2022-03-21-cloudbed1
+446,node-3,node 磁盘空间消耗,train,1647848486,node,2022-03-21-cloudbed3
+447,cartservice,k8s容器网络丢包,test,1647848731,service,2022-03-21-cloudbed1
+448,paymentservice,k8s容器网络资源包重复发送,train,1647848749,service,2022-03-21-cloudbed2
+449,emailservice,k8s容器写io负载,test,1647849842,service,2022-03-21-cloudbed3
+450,adservice-0,k8s容器网络丢包,train,1647850089,pod,2022-03-21-cloudbed2
+451,frontend-2,k8s容器读io负载,train,1647850299,pod,2022-03-21-cloudbed1
+452,productcatalogservice-2,k8s容器网络延迟,test,1647851344,pod,2022-03-21-cloudbed3
+453,node-5,node 磁盘空间消耗,train,1647852107,node,2022-03-21-cloudbed1
+454,node-1,node 磁盘空间消耗,train,1647852410,node,2022-03-21-cloudbed2
+455,node-6,node节点CPU故障,test,1647852824,node,2022-03-21-cloudbed3
+456,adservice-2,k8s容器网络延迟,train,1647853188,pod,2022-03-21-cloudbed2
+457,productcatalogservice-1,k8s容器网络延迟,train,1647854648,pod,2022-03-21-cloudbed2
+458,paymentservice,k8s容器网络延迟,train,1647855176,service,2022-03-21-cloudbed2
+459,checkoutservice-1,k8s容器网络资源包重复发送,train,1647855626,pod,2022-03-21-cloudbed3
+460,checkoutservice,k8s容器网络资源包损坏,train,1647857282,service,2022-03-21-cloudbed2
+461,checkoutservice,k8s容器进程中止,train,1647857740,service,2022-03-21-cloudbed3
+462,adservice,k8s容器网络丢包,train,1647858555,service,2022-03-21-cloudbed2
+463,checkoutservice,k8s容器内存负载,train,1647858895,service,2022-03-21-cloudbed3
+464,node-6,node 内存消耗,train,1647859493,node,2022-03-21-cloudbed2
+465,shippingservice,k8s容器内存负载,test,1647861002,service,2022-03-21-cloudbed2
+466,currencyservice,k8s容器进程中止,train,1647861911,service,2022-03-21-cloudbed3
+467,paymentservice,k8s容器cpu负载,test,1647862375,service,2022-03-21-cloudbed2
+468,currencyservice-2,k8s容器写io负载,train,1647863356,pod,2022-03-21-cloudbed3
+469,recommendationservice,k8s容器读io负载,train,1647863951,service,2022-03-21-cloudbed3
+470,checkoutservice-2,k8s容器网络资源包损坏,train,1647864210,pod,2022-03-21-cloudbed2
+471,cartservice2-0,k8s容器网络丢包,train,1647865496,pod,2022-03-21-cloudbed3
+472,node-3,node 磁盘空间消耗,train,1647865567,node,2022-03-21-cloudbed1
+473,node-2,node 内存消耗,train,1647866059,node,2022-03-21-cloudbed2
+474,emailservice-0,k8s容器网络资源包损坏,train,1647866421,pod,2022-03-21-cloudbed2
+475,frontend2-0,k8s容器读io负载,train,1647866926,pod,2022-03-21-cloudbed3
+476,node-6,node 磁盘空间消耗,test,1647868134,node,2022-03-21-cloudbed2
+477,frontend-2,k8s容器读io负载,train,1647869511,pod,2022-03-21-cloudbed2
+478,checkoutservice2-0,k8s容器cpu负载,train,1647869629,pod,2022-03-21-cloudbed3
+479,node-5,node 内存消耗,train,1647870712,node,2022-03-21-cloudbed2
+480,node-2,node 内存消耗,train,1647870740,node,2022-03-21-cloudbed1
+481,currencyservice-2,k8s容器cpu负载,train,1647870781,pod,2022-03-21-cloudbed3
+482,node-5,node 磁盘写IO消耗,train,1647871982,node,2022-03-21-cloudbed1
+483,node-4,node 内存消耗,train,1647872301,node,2022-03-21-cloudbed3
+484,recommendationservice-2,k8s容器网络资源包损坏,train,1647873778,pod,2022-03-21-cloudbed3
+485,frontend,k8s容器网络资源包损坏,train,1647873906,service,2022-03-21-cloudbed2
+486,node-2,node 内存消耗,train,1647874684,node,2022-03-21-cloudbed3
+487,node-4,node 磁盘空间消耗,test,1647875729,node,2022-03-21-cloudbed1
+488,adservice,k8s容器网络延迟,train,1647876235,service,2022-03-21-cloudbed3
+489,checkoutservice2-0,k8s容器cpu负载,train,1647876814,pod,2022-03-21-cloudbed2
+490,node-4,node节点CPU故障,test,1647877392,node,2022-03-21-cloudbed1
+491,currencyservice-2,k8s容器cpu负载,train,1648053565,pod,2022-03-24-cloudbed3
+492,recommendationservice-0,k8s容器网络资源包损坏,train,1648055039,pod,2022-03-24-cloudbed3
+493,frontend,k8s容器网络丢包,test,1648056469,service,2022-03-24-cloudbed3
+494,node-6,node节点CPU爬升,train,1648057423,node,2022-03-24-cloudbed3
+495,cartservice-1,k8s容器内存负载,train,1648060258,pod,2022-03-24-cloudbed3
+496,productcatalogservice-1,k8s容器进程中止,test,1648064773,pod,2022-03-24-cloudbed3
+497,productcatalogservice-1,k8s容器写io负载,train,1648066515,pod,2022-03-24-cloudbed3
+498,node-5,node 磁盘写IO消耗,train,1648067398,node,2022-03-24-cloudbed3
+499,node-6,node 磁盘空间消耗,train,1648069534,node,2022-03-24-cloudbed3
+500,frontend,k8s容器cpu负载,train,1648070982,service,2022-03-24-cloudbed3
+501,frontend-1,k8s容器读io负载,test,1648072753,pod,2022-03-24-cloudbed3
+502,adservice-0,k8s容器读io负载,test,1648073731,pod,2022-03-24-cloudbed3
+503,node-5,node 磁盘读IO消耗,train,1648074558,node,2022-03-24-cloudbed3
+504,emailservice-1,k8s容器写io负载,train,1648076281,pod,2022-03-24-cloudbed3
+505,node-3,node节点CPU爬升,train,1648079243,node,2022-03-24-cloudbed3
+506,recommendationservice,k8s容器网络延迟,train,1648083024,service,2022-03-24-cloudbed3
+507,emailservice,k8s容器网络资源包损坏,train,1648085160,service,2022-03-24-cloudbed3
+508,recommendationservice-1,k8s容器网络资源包损坏,train,1648087989,pod,2022-03-24-cloudbed3
+509,frontend,k8s容器cpu负载,test,1648089935,service,2022-03-24-cloudbed3
+510,adservice-1,k8s容器内存负载,train,1648090905,pod,2022-03-24-cloudbed3
+511,node-6,node 磁盘写IO消耗,train,1648091853,node,2022-03-24-cloudbed3
+512,recommendationservice,k8s容器进程中止,test,1648093711,service,2022-03-24-cloudbed3
+513,emailservice,k8s容器cpu负载,train,1648095288,service,2022-03-24-cloudbed3
+514,node-4,node节点CPU爬升,train,1648097072,node,2022-03-24-cloudbed3
+515,node-6,node 磁盘读IO消耗,train,1648098414,node,2022-03-24-cloudbed3
+516,cartservice-1,k8s容器网络丢包,train,1648100277,pod,2022-03-24-cloudbed3
+517,node-5,node节点CPU故障,train,1648101029,node,2022-03-24-cloudbed3
+518,recommendationservice,k8s容器写io负载,train,1648102759,service,2022-03-24-cloudbed3
+519,cartservice,k8s容器网络资源包损坏,test,1648103596,service,2022-03-24-cloudbed3
+520,checkoutservice-1,k8s容器cpu负载,train,1648104900,pod,2022-03-24-cloudbed3
+521,node-3,node节点CPU故障,train,1648107137,node,2022-03-24-cloudbed3
+522,currencyservice-1,k8s容器网络延迟,train,1648107896,pod,2022-03-24-cloudbed3
+523,node-4,node 内存消耗,train,1648109222,node,2022-03-24-cloudbed3
+524,recommendationservice,k8s容器网络延迟,train,1648111283,service,2022-03-24-cloudbed3
+525,frontend-2,k8s容器网络丢包,train,1648114196,pod,2022-03-24-cloudbed3
+526,productcatalogservice,k8s容器网络资源包损坏,test,1648115404,service,2022-03-24-cloudbed3
+527,emailservice,k8s容器网络资源包损坏,train,1648117550,service,2022-03-24-cloudbed3
+528,recommendationservice-0,k8s容器读io负载,test,1648117787,pod,2022-03-24-cloudbed3
+529,productcatalogservice-1,k8s容器读io负载,test,1648118890,pod,2022-03-24-cloudbed3
+530,recommendationservice,k8s容器网络丢包,train,1648120654,service,2022-03-24-cloudbed3
+531,cartservice,k8s容器网络资源包重复发送,train,1648121600,service,2022-03-24-cloudbed3
+532,currencyservice,k8s容器内存负载,test,1648124179,service,2022-03-24-cloudbed3
+533,emailservice-1,k8s容器读io负载,test,1648124782,pod,2022-03-24-cloudbed3
+534,frontend-1,k8s容器内存负载,train,1648126016,pod,2022-03-24-cloudbed3
+535,adservice2-0,k8s容器内存负载,test,1648127797,pod,2022-03-24-cloudbed3
+536,paymentservice-1,k8s容器写io负载,train,1648130260,pod,2022-03-24-cloudbed3
+537,currencyservice-1,k8s容器cpu负载,train,1648131758,pod,2022-03-24-cloudbed3
+538,node-6,node 磁盘写IO消耗,train,1648133148,node,2022-03-24-cloudbed3
+539,emailservice-1,k8s容器网络资源包损坏,train,1648133937,pod,2022-03-24-cloudbed3
+540,checkoutservice,k8s容器内存负载,test,1648135362,service,2022-03-24-cloudbed3
