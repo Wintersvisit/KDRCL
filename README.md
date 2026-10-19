@@ -76,7 +76,7 @@ Note that the project uses CUDA 11.8-based versions of PyTorch and DGL. Please e
 
 ### Pre-run Configuration
 
-All experiment parameters are centralized in `config/exp_config.py`.
+Experiment parameters are defined in config/exp_config.py, while teacher service settings are loaded from environment variables or .env.
 
 #### 1. Dataset and Feature Cache
 
@@ -104,23 +104,24 @@ The program retrains FastText based on `raw/*.json` and the training labels, the
 
 #### 2. Teacher Model
 
-If knowledge distillation is enabled, confirm the following parameters in `config/exp_config.py` before running the project:
+Teacher settings are loaded from environment variables or a `.env` file
+in the project root. Copy `.env.example` to `.env` and replace the
+placeholders with your teacher service settings:
 
-```python
-distillation = True
-teacher_model = "<model-name>"
-teacher_api_key = "<your-api-key>"
-teacher_base_url = "<openai-compatible-base-url>"
+```dotenv
+KDRCL_TEACHER_MODEL=<teacher-model-name>
+KDRCL_TEACHER_API_KEY=<teacher-api-key>
+KDRCL_TEACHER_BASE_URL=<openai-compatible-base-url>
+KDRCL_TEACHER_MAX_TOKENS=2000
 ```
 
-The teacher service must be compatible with `chat.completions.create` and must return JSON containing `logits` and `overall_explanation` according to the prompt. Teacher queries will incur network requests, latency, and possible API costs.
-
-To run only the basic supervised model, disable the following options:
+To run only the basic supervised model, set the following options in
+`config/exp_config.py`:
 
 ```python
-distillation = False
-hard_sample_distill = False
-feature_alignment = False
+self.distillation = False
+self.hard_sample_distill = False
+self.feature_alignment = False
 ```
 
 
@@ -129,8 +130,6 @@ feature_alignment = False
 When `feature_alignment` is enabled, `core/KDRCL.py` loads `bert-base-uncased` from the local directory specified in the current code. It is used to semantically encode teacher explanation texts and align them with the student model features.
 
 Before running the project, make sure that the directory exists, or modify the path in the code to point to your local model directory. The directory must contain the complete BERT model files.
-
-Note: Although `test.py` disables teacher distillation, it still sets `feature_alignment` to `True`. Therefore, the local BERT model will also be initialized during testing.
 
 To enable semantic feature alignment, first download or prepare a local model directory, for example:
 

@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 import random
 import json
+import re
 from openai import OpenAI
 import numpy as np
 from transformers import BertModel, BertTokenizer, AutoModel, AutoTokenizer
@@ -44,8 +45,10 @@ class KDRCL(object):
 
         # 初始化解释编码器（用于特征对齐）
         if config.feature_alignment and config.explanation_encoder == "bert":
-            self.explanation_tokenizer = BertTokenizer.from_pretrained("")
-            self.explanation_encoder = BertModel.from_pretrained("")
+            bert_path = r" "
+
+            self.explanation_tokenizer = BertTokenizer.from_pretrained(bert_path)
+            self.explanation_encoder = BertModel.from_pretrained(bert_path)
             self.explanation_encoder.eval()
 
             if use_gpu:
@@ -70,38 +73,90 @@ class KDRCL(object):
 
         return teacher_ratio
 
-    def identify_hard_samples(self, model, batch_graphs, batch_labels):
-        model.eval()
-        with torch.no_grad():
-            _, _, root_logit, _ = model(batch_graphs)
+    @staticmethod
+    def calculate_graph_confidences(root_logit, num_nodes_list):
+        """Return max root-node probability for every graph in a DGL batch."""
+        flat_root_logits = root_logit.reshape(-1)
+        graph_confidences = []
+        start_idx = 0
 
-            # 获取批次中每个图的节点数量
-            num_nodes_list = batch_graphs.batch_num_nodes()
-            batch_size = len(num_nodes_list)
+        for num_nodes in num_nodes_list:
+            node_count = int(num_nodes)
+            end_idx = start_idx + node_count
+            graph_logits = flat_root_logits[start_idx:end_idx]
+            graph_probs = torch.softmax(graph_logits, dim=0)
+            graph_confidences.append(graph_probs.max())
+            start_idx = end_idx
 
-            # 计算根因定位的困难度
-            root_probs = F.softmax(root_logit, dim=1)
-            root_confidence = torch.zeros(batch_size, device=self.device)
+        if start_idx != flat_root_logits.numel():
+            raise ValueError(
+                "The sum of graph node counts does not match root_logit."
+            )
 
-            start_idx = 0
-            for graph_idx, num_nodes in enumerate(num_nodes_list):
-                end_idx = start_idx + num_nodes
-                # 获取当前图的节点概率
-                graph_root_probs = root_probs[start_idx:end_idx]
-                # 取当前图中所有节点的最大概率作为图的根因定位置信度
-                root_confidence[graph_idx] = torch.max(graph_root_probs)
-                start_idx += num_nodes
+        return torch.stack(graph_confidences)
 
-            # 识别困难样本
-            hard_mask = root_confidence < self.config.hard_threshold
+    @staticmethod
+    def prepare_distillation_distributions(student_logits, teacher_logits,
+                                           temperature):
+        """Build matching one-dimensional node distributions for one graph."""
+        student_logits = student_logits.reshape(-1)
+        teacher_logits = teacher_logits.reshape(-1)
 
-            if hard_mask.sum() == 0:        # 如果没有样本低于阈值
-                k = max(1, int(len(root_confidence) * self.config.hard_sample_ratio))
-                _, indices = torch.topk(root_confidence, k, largest=False)      # 强制取置信度最低的 k 个，保证每个 batch 至少有一些样本会查询老师，避免完全停止蒸馏
-                hard_mask = torch.zeros_like(root_confidence, dtype=torch.bool)
-                hard_mask[indices] = True
+        if student_logits.numel() != teacher_logits.numel():
+            raise ValueError(
+                "Student and teacher logits must contain the same number of "
+                "graph nodes: {} != {}.".format(
+                    student_logits.numel(), teacher_logits.numel()
+                )
+            )
 
-            return hard_mask
+        student_log_probs = F.log_softmax(student_logits / temperature, dim=0)
+        teacher_probs = F.softmax(teacher_logits / temperature, dim=0)
+        return student_log_probs, teacher_probs
+
+    @classmethod
+    def calculate_distillation_loss(cls, student_logits, teacher_logits,
+                                    temperature):
+        student_log_probs, teacher_probs = \
+            cls.prepare_distillation_distributions(
+                student_logits, teacher_logits, temperature
+            )
+        return F.kl_div(
+            student_log_probs,
+            teacher_probs,
+            reduction='sum'
+        ) * (temperature ** 2)
+
+    def identify_hard_samples(self, model, batch_graphs, batch_labels,
+                              return_details=False):
+        was_training = model.training
+        try:
+            model.eval()
+            with torch.no_grad():
+                _, _, root_logit, _ = model(batch_graphs)
+
+                # 获取批次中每个图的节点数量
+                num_nodes_list = batch_graphs.batch_num_nodes()
+                # 按 DGL batch 中每个图的节点范围切分，并仅在图内节点间归一化。
+                root_confidence = self.calculate_graph_confidences(
+                    root_logit, num_nodes_list
+                )
+
+                # 识别困难样本
+                hard_mask = root_confidence < self.config.hard_threshold
+                num_threshold_hard = hard_mask.sum().item()
+
+                if hard_mask.sum() == 0:        # 如果没有样本低于阈值
+                    k = max(1, int(len(root_confidence) * self.config.hard_sample_ratio))
+                    _, indices = torch.topk(root_confidence, k, largest=False)      # 强制取置信度最低的 k 个，保证每个 batch 至少有一些样本会查询老师，避免完全停止蒸馏
+                    hard_mask = torch.zeros_like(root_confidence, dtype=torch.bool)
+                    hard_mask[indices] = True
+        finally:
+            model.train(was_training)
+
+        if return_details:
+            return hard_mask, root_confidence, num_threshold_hard
+        return hard_mask
 
     def build_soft_label_prompt(self, raw_events):
         nodes = raw_events['nodes']
@@ -180,19 +235,36 @@ The input will be provided in the user message, including the system node list, 
             return response
 
         content = str(response).strip()
-        if content.startswith("```"):
-            content = content.strip("`").strip()
-            if content.lower().startswith("json"):
-                content = content[4:].strip()
-
+        parse_errors = []
         try:
             return json.loads(content)
-        except json.JSONDecodeError:
-            start = content.find("{")
-            end = content.rfind("}")
-            if start != -1 and end != -1 and end > start:
-                return json.loads(content[start:end + 1])
-            raise
+        except json.JSONDecodeError as error:
+            parse_errors.append(error)
+
+        fenced_blocks = re.findall(
+            r"```(?:json)?\s*(\{.*?\})\s*```", content,
+            flags=re.IGNORECASE | re.DOTALL
+        )
+        for candidate in fenced_blocks:
+            try:
+                data = json.loads(candidate)
+                if isinstance(data, dict) and 'logits' in data:
+                    return data
+            except json.JSONDecodeError as error:
+                parse_errors.append(error)
+
+        decoder = json.JSONDecoder()
+        for match in re.finditer(r"\{", content):
+            try:
+                data, _ = decoder.raw_decode(content[match.start():])
+                if isinstance(data, dict) and 'logits' in data:
+                    return data
+            except json.JSONDecodeError as error:
+                parse_errors.append(error)
+
+        if parse_errors:
+            raise parse_errors[-1]
+        raise json.JSONDecodeError("No JSON object found", content, 0)
 
     def extract_teacher_content(self, response):
         if isinstance(response, str):
@@ -200,7 +272,14 @@ The input will be provided in the user message, including the system node list, 
 
         if isinstance(response, dict):
             if "choices" in response:
-                return response["choices"][0]["message"]["content"]
+                message = response["choices"][0]["message"]
+                content = message.get("content")
+                if isinstance(content, str) and content.strip():
+                    return content
+                reasoning_content = message.get("reasoning_content")
+                if isinstance(reasoning_content, str) and reasoning_content.strip():
+                    return reasoning_content
+                return content
             if "content" in response:
                 return response["content"]
             if "text" in response:
@@ -208,7 +287,14 @@ The input will be provided in the user message, including the system node list, 
             return json.dumps(response, ensure_ascii=False)
 
         if hasattr(response, "choices"):
-            return response.choices[0].message.content
+            message = response.choices[0].message
+            content = getattr(message, "content", None)
+            if isinstance(content, str) and content.strip():
+                return content
+            reasoning_content = getattr(message, "reasoning_content", None)
+            if isinstance(reasoning_content, str) and reasoning_content.strip():
+                return reasoning_content
+            return content
 
         if hasattr(response, "content"):
             return response.content
@@ -240,7 +326,87 @@ The input will be provided in the user message, including the system node list, 
             """BERT 编码后，第 0 个位置的 [CLS] token 的输出向量被训练为整句话的语义摘要"""
         return cls_embedding
 
-    def query_teacher_model(self, system_prompt, user_prompt):      # 调用教师模型 API 获取软标签和解释
+    @staticmethod
+    def create_teacher_stats():
+        return {
+            key: 0 for key in (
+                'teacher_query_count', 'teacher_api_success_count',
+                'teacher_api_failure_count', 'teacher_empty_count',
+                'teacher_parse_success_count', 'teacher_parse_failure_count',
+                'teacher_logit_valid_count', 'teacher_logit_mismatch_count',
+                'teacher_explanation_valid_count', 'distill_update_count',
+                'alignment_update_count'
+            )
+        }
+
+    def parse_and_validate_teacher_response(self, response, nodes, sample_id,
+                                            stats):
+        try:
+            data = self.parse_teacher_response_json(response)
+            if not isinstance(data, dict):
+                raise TypeError("top-level JSON value must be an object")
+        except Exception as error:
+            stats['teacher_parse_failure_count'] += 1
+            self.logger.warning(
+                "[Teacher Warning] JSON parse failure, sample_id=%s, "
+                "error_type=%s, error=%s",
+                sample_id, type(error).__name__, str(error)[:200]
+            )
+            return None, None
+
+        stats['teacher_parse_success_count'] += 1
+        logits = data.get('logits')
+        teacher_logits = None
+        if not isinstance(logits, dict):
+            stats['teacher_logit_mismatch_count'] += 1
+            self.logger.warning(
+                "[Teacher Warning] Invalid logits type, sample_id=%s, "
+                "expected=dict, received=%s",
+                sample_id, type(logits).__name__
+            )
+        elif set(logits.keys()) != set(nodes):
+            stats['teacher_logit_mismatch_count'] += 1
+            missing_count = len(set(nodes) - set(logits.keys()))
+            extra_count = len(set(logits.keys()) - set(nodes))
+            self.logger.warning(
+                "[Teacher Warning] Logit node mismatch, sample_id=%s, "
+                "expected=%d, received=%d, missing=%d, extra=%d",
+                sample_id, len(nodes), len(logits), missing_count, extra_count
+            )
+        else:
+            try:
+                values = np.asarray(
+                    [float(logits[node]) for node in nodes], dtype=np.float32
+                )
+                if not np.isfinite(values).all():
+                    raise ValueError("logits contain non-finite values")
+                teacher_logits = torch.tensor(
+                    values, dtype=torch.float32, device=self.device
+                )
+                stats['teacher_logit_valid_count'] += 1
+            except (TypeError, ValueError) as error:
+                stats['teacher_logit_mismatch_count'] += 1
+                self.logger.warning(
+                    "[Teacher Warning] Invalid logit values, sample_id=%s, "
+                    "error=%s", sample_id, str(error)[:200]
+                )
+
+        explanation = data.get('overall_explanation')
+        if isinstance(explanation, str) and explanation.strip():
+            explanation = explanation.strip()
+            stats['teacher_explanation_valid_count'] += 1
+        else:
+            explanation = None
+            self.logger.warning(
+                "[Teacher Warning] Empty explanation, sample_id=%s", sample_id
+            )
+
+        return teacher_logits, explanation
+
+    def query_teacher_model(self, system_prompt, user_prompt, sample_id=None,
+                            stats=None):      # 调用教师模型 API 获取软标签和解释
+        if stats is not None:
+            stats['teacher_query_count'] += 1
         try:
             response = self.teacher_client.chat.completions.create(
                 model=self.config.teacher_model,
@@ -248,19 +414,38 @@ The input will be provided in the user message, including the system node list, 
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
-                max_tokens=1000,
-                temperature=self.config.temperature         # temperature=0：确定性输出，每次相同输入得到相同结果，保证输出可复现
+                max_tokens=self.config.teacher_max_tokens,
+                temperature=self.config.temperature,        # temperature=0：确定性输出，每次相同输入得到相同结果，保证输出可复现
+                response_format={"type": "json_object"},
+                extra_body={"thinking": {"type": "disabled"}}
             )
 
+            if stats is not None:
+                stats['teacher_api_success_count'] += 1
+
             content = self.extract_teacher_content(response) # 如果返回 HTML，应该视为失败
+            if not isinstance(content, str) or not content.strip():
+                if stats is not None:
+                    stats['teacher_empty_count'] += 1
+                self.logger.warning(
+                    "[Teacher Warning] Empty response, sample_id=%s", sample_id
+                )
+                return None
             if content.lstrip().lower().startswith("<!doctype html") or content.lstrip().lower().startswith("<html"):
+                if stats is not None:
+                    stats['teacher_parse_failure_count'] += 1
                 self.logger.error("Teacher API returned HTML page. Please check teacher_base_url; it should be an OpenAI-compatible API endpoint, usually ending with /v1.")
                 return None
             return content
 
             # return self.extract_teacher_content(response)
         except Exception as e:
-            self.logger.error(f"教师模型API调用失败: {e}")
+            if stats is not None:
+                stats['teacher_api_failure_count'] += 1
+            self.logger.warning(
+                "[Teacher Warning] API error, sample_id=%s, error_type=%s, "
+                "error=%s", sample_id, type(e).__name__, str(e)[:200]
+            )
             return None
 
     def train(self, train_data, aug_data):
@@ -280,6 +465,13 @@ The input will be provided in the user message, including the system node list, 
             model.train()
             epoch_loss = 0
             rcl_results = {"HR@1": [], "HR@2": [], "HR@3": [], "HR@4": [], "HR@5": [], "MRR@3": []}
+            epoch_confidences = []
+            epoch_num_hard_samples = 0
+            epoch_num_selected_samples = 0
+            epoch_hard_loss_sum = 0.0
+            epoch_distill_loss_sum = 0.0
+            epoch_alignment_loss_sum = 0.0
+            teacher_stats = self.create_teacher_stats()
 
             current_teacher_ratio = self.get_teacher_ratio(epoch)
 
@@ -302,12 +494,20 @@ The input will be provided in the user message, including the system node list, 
                 # 知识蒸馏损失（仅困难样本）- 包含特征对齐
                 distill_loss = torch.tensor(0.0, device=self.device)
                 alignment_loss = torch.tensor(0.0, device=self.device)
-                teacher_used_count = 0
+                batch_distill_update_count = 0
+                batch_alignment_update_count = 0
 
                 if self.config.distillation and self.config.hard_sample_distill and self.teacher_client:
                     # 识别困难样本
                     with torch.no_grad():
-                        hard_mask = self.identify_hard_samples(model, batch_graphs, batch_labels)
+                        hard_mask, root_confidence, num_threshold_hard = \
+                            self.identify_hard_samples(
+                                model, batch_graphs, batch_labels,
+                                return_details=True
+                            )
+
+                    epoch_confidences.append(root_confidence.detach())
+                    epoch_num_hard_samples += num_threshold_hard
 
                     batch_size = len(batch_graphs.batch_num_nodes())
 
@@ -321,55 +521,62 @@ The input will be provided in the user message, including the system node list, 
                             # 从困难样本中随机选择一部分
                             hard_indices = torch.where(hard_mask)[0]
                             selected_indices = hard_indices[torch.randperm(len(hard_indices))[:actual_teacher_samples]]
+                            epoch_num_selected_samples += len(selected_indices)
 
                             # 为选中的困难样本查询教师模型
                             for idx in selected_indices:
-                                system_prompt, user_prompt = self.build_soft_label_prompt(batch_raw_events[idx])
-                                teacher_response = self.query_teacher_model(system_prompt, user_prompt)
+                                graph_idx = int(idx)
+                                raw_events = batch_raw_events[graph_idx]
+                                sample_id = raw_events.get(
+                                    'index', f"batch={batch_idx},graph={graph_idx}"
+                                )
+                                system_prompt, user_prompt = self.build_soft_label_prompt(raw_events)
+                                teacher_response = self.query_teacher_model(
+                                    system_prompt, user_prompt,
+                                    sample_id=sample_id, stats=teacher_stats
+                                )
 
                                 # self.logger.info(f"Teacher response received: {teacher_response is not None}, type={type(teacher_response)}")
                                 # self.logger.info(f"Teacher response preview: {teacher_response[:300] if teacher_response else None}")
 
                                 if teacher_response:
-                                    # 解析教师模型的logits
-                                    teacher_logits = self.parse_teacher_logits(
-                                        teacher_response, batch_raw_events[idx]['nodes'])
-
-                                    # 解析教师模型的整体解释
-                                    teacher_explanation = self.parse_teacher_explanations(
-                                        teacher_response, batch_raw_events[idx]['nodes'])
-
-                                    # 编码整体解释文本
-                                    explanation_embedding = self.encode_explanations(
-                                        teacher_explanation, batch_raw_events[idx]['nodes'])
+                                    teacher_logits, teacher_explanation = \
+                                        self.parse_and_validate_teacher_response(
+                                            teacher_response,
+                                            raw_events['nodes'],
+                                            sample_id,
+                                            teacher_stats
+                                        )
 
                                     # 获取当前图的节点数量，即定位当前图在大图中的节点范围
-                                    num_nodes = batch_graphs.batch_num_nodes()[idx]
-                                    start_idx = sum(batch_graphs.batch_num_nodes()[:idx])
+                                    num_nodes = batch_graphs.batch_num_nodes()[graph_idx]
+                                    start_idx = sum(batch_graphs.batch_num_nodes()[:graph_idx])
                                     end_idx = start_idx + num_nodes
 
                                     # 获取学生模型的输出
                                     student_logits = root_logit[start_idx:end_idx]
 
-                                    # 计算KL散度损失
-                                    student_probs = F.log_softmax(
-                                        student_logits / self.config.distill_temperature, dim=0)
-                                    teacher_probs = F.softmax(
-                                        teacher_logits / self.config.distill_temperature, dim=0)
-
-                                    # KL散度损失
-                                    distill_rcl_loss = F.kl_div(
-                                        student_probs,
-                                        teacher_probs,
-                                        reduction='batchmean'
-                                    ) * (self.config.distill_temperature ** 2)
-
-                                    distill_loss += distill_rcl_loss
+                                    if teacher_logits is not None:
+                                        # 在当前图的节点维度计算 KL(p_teacher || p_student)。
+                                        distill_rcl_loss = self.calculate_distillation_loss(
+                                            student_logits,
+                                            teacher_logits,
+                                            self.config.distill_temperature
+                                        )
+                                        if not torch.isfinite(distill_rcl_loss):
+                                            raise ValueError(
+                                                f"Non-finite distillation loss for {sample_id}"
+                                            )
+                                        distill_loss += distill_rcl_loss
+                                        batch_distill_update_count += 1
+                                        teacher_stats['distill_update_count'] += 1
 
                                     # 特征对齐损失
-                                    if self.config.feature_alignment and explanation_embedding is not None:
+                                    if self.config.feature_alignment and teacher_explanation is not None:
+                                        explanation_embedding = self.encode_explanations(
+                                            teacher_explanation, raw_events['nodes'])
                                         # 获取当前图的图级别特征
-                                        graph_embedding_idx = graph_embeddings[idx]
+                                        graph_embedding_idx = graph_embeddings[graph_idx]
 
                                         if graph_embedding_idx.shape[0] != explanation_embedding.shape[0]:
                                             if not hasattr(self, 'graph_projection_layer'):
@@ -393,15 +600,19 @@ The input will be provided in the user message, including the system node list, 
                                                 explanation_embedding.unsqueeze(0)
                                             )
 
+                                        if not torch.isfinite(align_loss):
+                                            raise ValueError(
+                                                f"Non-finite alignment loss for {sample_id}"
+                                            )
                                         alignment_loss += align_loss
-
-                                    teacher_used_count += 1
+                                        batch_alignment_update_count += 1
+                                        teacher_stats['alignment_update_count'] += 1
 
                             # 平均损失
-                            if teacher_used_count > 0:
-                                distill_loss = distill_loss / teacher_used_count
-                                if self.config.feature_alignment:
-                                    alignment_loss = alignment_loss / teacher_used_count
+                            if batch_distill_update_count > 0:
+                                distill_loss = distill_loss / batch_distill_update_count
+                            if batch_alignment_update_count > 0:
+                                alignment_loss = alignment_loss / batch_alignment_update_count
 
                 # 总损失 = 监督损失 + 蒸馏损失 + 特征对齐损失
                 total_loss = supervised_loss + \
@@ -412,10 +623,26 @@ The input will be provided in the user message, including the system node list, 
                 opt.step()
 
                 epoch_loss += total_loss.detach().item()
+                epoch_hard_loss_sum += supervised_loss.detach().item()
+                epoch_distill_loss_sum += (
+                    distill_loss.detach().item() * batch_distill_update_count
+                )
+                epoch_alignment_loss_sum += (
+                    alignment_loss.detach().item() * batch_alignment_update_count
+                )
                 n_iter += 1
 
 
             mean_epoch_loss = epoch_loss / n_iter if n_iter > 0 else 0
+            mean_hard_loss = epoch_hard_loss_sum / n_iter if n_iter > 0 else 0
+            mean_distill_loss = (
+                epoch_distill_loss_sum / teacher_stats['distill_update_count']
+                if teacher_stats['distill_update_count'] > 0 else 0
+            )
+            mean_alignment_loss = (
+                epoch_alignment_loss_sum / teacher_stats['alignment_update_count']
+                if teacher_stats['alignment_update_count'] > 0 else 0
+            )
             end_time = time.time()
             time_per_epoch = (end_time - start_time)
             train_times.append(time_per_epoch)
@@ -423,16 +650,60 @@ The input will be provided in the user message, including the system node list, 
             self.logger.info("Epoch {} done. Loss: {:.3f}, Time per epoch: {:.3f}[s], Teacher ratio: {:.2f}"
                              .format(epoch, mean_epoch_loss, time_per_epoch, current_teacher_ratio))
 
+            if epoch_confidences:
+                confidence_values = torch.cat(epoch_confidences)
+                confidence_min = confidence_values.min().item()
+                confidence_mean = confidence_values.mean().item()
+                confidence_max = confidence_values.max().item()
+                self.logger.info(
+                    "Selector epoch {}: confidence_min={:.6f}, "
+                    "confidence_mean={:.6f}, confidence_max={:.6f}, "
+                    "num_hard_samples={}, num_selected_samples={}, "
+                    "teacher_ratio={:.4f}".format(
+                        epoch, confidence_min, confidence_mean, confidence_max,
+                        epoch_num_hard_samples, epoch_num_selected_samples,
+                        current_teacher_ratio
+                    )
+                )
+                self.writer.add_scalar('selector/confidence_min', confidence_min,
+                                       global_step=epoch)
+                self.writer.add_scalar('selector/confidence_mean', confidence_mean,
+                                       global_step=epoch)
+                self.writer.add_scalar('selector/confidence_max', confidence_max,
+                                       global_step=epoch)
+            else:
+                self.logger.info(
+                    "Selector epoch {}: confidence_min=N/A, "
+                    "confidence_mean=N/A, confidence_max=N/A, "
+                    "num_hard_samples=0, num_selected_samples=0, "
+                    "teacher_ratio={:.4f} (selector not run)".format(
+                        epoch, current_teacher_ratio
+                    )
+                )
+
+            self.writer.add_scalar('selector/num_hard_samples',
+                                   epoch_num_hard_samples, global_step=epoch)
+            self.writer.add_scalar('selector/num_selected_samples',
+                                   epoch_num_selected_samples, global_step=epoch)
+
+            self.logger.info(
+                "Teacher pipeline epoch %d: %s",
+                epoch,
+                ", ".join(
+                    f"{key}={value}" for key, value in teacher_stats.items()
+                )
+            )
+            for key, value in teacher_stats.items():
+                self.writer.add_scalar(f'teacher/{key}', value,
+                                       global_step=epoch)
+
             # 记录损失分量
             self.writer.add_scalar('loss/total', mean_epoch_loss, global_step=epoch)
-            self.writer.add_scalar('loss/supervised',
-                                   supervised_loss.item() if hasattr(supervised_loss, 'item') else supervised_loss,
+            self.writer.add_scalar('loss/supervised', mean_hard_loss,
                                    global_step=epoch)
-            self.writer.add_scalar('loss/distill',
-                                   distill_loss.item() if hasattr(distill_loss, 'item') else distill_loss,
+            self.writer.add_scalar('loss/distill', mean_distill_loss,
                                    global_step=epoch)
-            self.writer.add_scalar('loss/alignment',
-                                   alignment_loss.item() if hasattr(alignment_loss, 'item') else alignment_loss,
+            self.writer.add_scalar('loss/alignment', mean_alignment_loss,
                                    global_step=epoch)
             self.writer.add_scalar('teacher/ratio', current_teacher_ratio, global_step=epoch)
 

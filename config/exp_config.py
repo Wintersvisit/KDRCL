@@ -1,3 +1,13 @@
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(PROJECT_ROOT / ".env", override=False)
+
+
 class Config:
     def __init__(self, dataset) -> None:
         self.dataset = dataset
@@ -28,9 +38,12 @@ class Config:
 
         # 知识蒸馏配置
         self.distillation = True
-        self.teacher_model = ""
-        self.teacher_api_key = ""
-        self.teacher_base_url = ""  # 替换为实际的教师模型API地址
+        self.teacher_model = os.getenv("KDRCL_TEACHER_MODEL", "").strip()
+        self.teacher_api_key = os.getenv("KDRCL_TEACHER_API_KEY", "").strip()
+        self.teacher_base_url = os.getenv("KDRCL_TEACHER_BASE_URL", "").strip()
+        self.teacher_max_tokens = int(
+            os.getenv("KDRCL_TEACHER_MAX_TOKENS", "2000")
+        )
         self.distill_temperature = 5.0  # KL散度温度参数
         self.distill_alpha = 0.2  # 蒸馏损失权重
 
@@ -73,4 +86,6 @@ class Config:
     
     def print_configs(self, logger):
         for attr, value in vars(self).items():
+            if attr == 'teacher_api_key':
+                value = '***' if value else ''
             logger.info(f"{attr}: {value}")

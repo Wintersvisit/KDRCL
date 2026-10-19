@@ -17,6 +17,7 @@ drain3==0.9.11
 # Knowledge distillation and text encoding
 openai==1.30.1
 transformers==4.36.2
+python-dotenv==1.0.1
 
 # Training utilities
 tensorboard==2.14.1
